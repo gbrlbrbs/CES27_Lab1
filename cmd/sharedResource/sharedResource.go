@@ -15,7 +15,7 @@ func main() {
 	defer connection.Close()
 	fmt.Println("server listening at", connection.LocalAddr().String())
 	for {
-		message := make([]byte, 50)
+		message := make([]byte, 1024)
 		rlen, remote, err := connection.ReadFromUDP(message)
 		utils.CheckError(err)
 		data := strings.TrimSpace(string(message[:rlen]))
