@@ -1,12 +1,32 @@
 package main
 
 import (
+	"bufio"
 	"net"
 	"os"
 	"strconv"
-
 	"github.com/gbrlbrbs/CES27_Lab1/internal/utils"
 )
+
+func readInputFromStdin(ch chan string) {
+	reader := bufio.NewReader(os.Stdin)
+	for {
+		text, _, err := reader.ReadLine()
+		utils.PrintError(err)
+		if err == nil {
+			ch <- string(text)
+		}
+	}
+}
+
+func processListenUDP(procPort string) (serverConn *net.UDPConn) {
+	serverAddr, err := net.ResolveUDPAddr("udp", procPort)
+	utils.PrintError(err)
+
+	serverConn, err = net.ListenUDP("udp", serverAddr)
+	utils.PrintError(err)
+	return
+}
 
 func makeConnections(nServers int, ports []string) (connections []*net.UDPConn, sharedResource *net.UDPConn) {
 	connections = make([]*net.UDPConn, nServers)
@@ -45,4 +65,18 @@ func getArgs() (id int, procPort string, ports []string, nServers int) {
 func main() {
 	id, procPort, ports, nServers := getArgs()
 	connections, sharedResource := makeConnections(nServers, ports)
+	serverConn := processListenUDP(procPort)
+	logicalClock := 0
+
+	// close connections on main function finish
+	defer serverConn.Close()
+	for i := nServers; i < nServers; i++ {
+		defer connections[i].Close()
+	}
+
+	ch := make(chan string)
+	go readInputFromStdin(ch)
+	for {
+		
+	}
 }
