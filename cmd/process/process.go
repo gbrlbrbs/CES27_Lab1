@@ -80,7 +80,7 @@ func reply2process(process_id int){
 	str_id := strconv.Itoa(id)//convert id (int) into a string type
 	
 	// concatenate
-	message = concatenate(str_id , str_clock, "reply")
+	message := utils.Concatenate(str_id , str_clock, "reply")
 	
 	// send reply to process
 	index := process_id - 1
@@ -98,7 +98,7 @@ func askOtherProcessToUseCS(clock int){
 	str_id := strconv.Itoa(id)//convert id (int) into a string type
 	
 	// concatenate
-	message = concatenate(str_id , str_clock, "request")
+	message := utils.Concatenate(str_id , str_clock, "request")
 
 	//Multicast request to all N-1 processes
 	for _, conn2process := range CliConn {
@@ -115,9 +115,8 @@ func sendMessageToCS(request_clock int, text string){
 	insideCS = true
 	str_request_clock := strconv.Itoa(lc_requisicao)//convert clock (int) into a string type 
 	str_id := strconv.Itoa(id)//convert id (int) into a string type
-	
 	// concatenate
-	message = concatenate(str_id , str_clock, text)
+	message := utils.Concatenate(str_id , str_request_clock, text)
 
 	//send message to shared resource
      _,err := sharedResource.Write(buf)
@@ -134,7 +133,7 @@ func replyQueuedRequests(){
 	str_id := strconv.Itoa(id)//convert id (int) into a string type
 	
 	// concatenate
-	message = concatenate(str_id , str_clock, "reply")
+	message := utils.Concatenate(str_id , str_clock, "reply")
 
 	//Reply to all queued processes
 	for _,id:= range queued_request {
