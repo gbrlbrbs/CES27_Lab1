@@ -2,7 +2,6 @@ package utils
 
 import (
 	"fmt"
-	"strings"
 )
 
 func PrintError(e error) {
