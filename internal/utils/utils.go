@@ -26,7 +26,6 @@ func MaxNumber(x1, x2 int) int {
 //auxiliary function to concatenate ID, clock and
 func Concatenate(str_id string, str_clock string, text string) string {
 	message := str_id + "," + str_clock + "," + text
-	buf := []byte(message)
 
 	return message
 }
