@@ -21,14 +21,14 @@ var CliConn []*net.UDPConn //vetor com conexões para os servidores
 var ServConn *net.UDPConn //conexão do meu servidor (onde recebo
  //mensagens dos outros processos)
 
-var id int //numero identificador do processo
+var request_id int //numero identificador do processo
 var mylogicalClock int
-var estouNaCS bool
-var estouEsperando bool
+var insideCS bool
+var waiting bool
 var received_all_replies bool
 var sharedResource *net.UDPConn
 var queued_request []int
-var lc_requisicao int
+var request_clock int
 var replies_received []int
 
 // function that verifies if a specific process is in the queue
@@ -77,7 +77,7 @@ func queueRequest(process_id int){
 //function to build and send reply messages
 func reply2process(process_id int){
 	str_clock:= strconv.Itoa(mylogicalClock)//convert clock (int) into a string type
-	str_id := strconv.Itoa(id)//convert id (int) into a string type
+	str_id := strconv.Itoa(request_id)//convert id (int) into a string type
 	
 	// concatenate
 	message = concatenate(str_id , str_clock, "reply")
@@ -95,7 +95,7 @@ func reply2process(process_id int){
 func askOtherProcessToUseCS(clock int){
 
 	str_clock := strconv.Itoa(clock)//convert clock (int) into a string type 
-	str_id := strconv.Itoa(id)//convert id (int) into a string type
+	str_id := strconv.Itoa(request_id)//convert id (int) into a string type
 	
 	// concatenate
 	message = concatenate(str_id , str_clock, "request")
@@ -113,8 +113,8 @@ func askOtherProcessToUseCS(clock int){
 //function to send message to CS and sleep (all other processes have replied)
 func sendMessageToCS(request_clock int, text string){
 	insideCS = true
-	str_request_clock := strconv.Itoa(lc_requisicao)//convert clock (int) into a string type 
-	str_id := strconv.Itoa(id)//convert id (int) into a string type
+	str_clock := strconv.Itoa(request_clock)//convert clock (int) into a string type 
+	str_id := strconv.Itoa(request_id)//convert id (int) into a string type
 	
 	// concatenate
 	message = concatenate(str_id , str_clock, text)
@@ -131,14 +131,14 @@ func sendMessageToCS(request_clock int, text string){
 
 func replyQueuedRequests(){
 	str_clock := strconv.Itoa(mylogicalClock)//convert clock (int) into a string type 
-	str_id := strconv.Itoa(id)//convert id (int) into a string type
+	str_id := strconv.Itoa(request_id)//convert id (int) into a string type
 	
 	// concatenate
 	message = concatenate(str_id , str_clock, "reply")
 
 	//Reply to all queued processes
-	for _,id:= range queued_request {
-		index := id -1
+	for _,request_id:= range queued_request {
+		index := request_id -1
 		//reply queued request
 		_,err := CliConn[index].Write(buf)
 		if err != nil {
@@ -160,7 +160,7 @@ func releaseCS(){
 	replies_received = nil
 }
 
-func Ricart_Agrawala(lc_requisicao int, text_simples string){
+func Ricart_Agrawala(request_clock int, text_simples string){
 
 	waiting = true
 	askOtherProcessToUseCS(request_clock)
