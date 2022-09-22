@@ -29,15 +29,12 @@ func amIthepriority(process_id int, process_clock int) bool {
 
 	if request_clock < process_clock {//my logical clock at request is lower than another's
 		return true//I am priority
-	} 
-	else if process_clock > request_clock {//my logical clock at request isn't lower than another's
+	} else if process_clock > request_clock {//my logical clock at request isn't lower than another's
 		return false//I'm not priority 
-	} 
-	else {//my logical clock at request is equal to another's
+	} else {//my logical clock at request is equal to another's
 		if request_id < process_id {//my id is lower
 			return true//I am priority
-		} 
-		else {//my id isn't lower
+		} else {//my id isn't lower
 			return false//I'm not priority
 		}
 	}
