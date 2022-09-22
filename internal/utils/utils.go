@@ -4,8 +4,10 @@ import (
 	"fmt"
 )
 
-func PrintHelloWorld() {
-	fmt.Println("Hello World!")
+func PrintError(e error) {
+	if e != nil {
+		fmt.Println("Error:", e.Error())
+	}
 }
 
 func CheckError(e error) {
