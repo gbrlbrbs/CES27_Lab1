@@ -12,7 +12,24 @@ import (
 
 )
 
+//Variáveis globais interessantes para o processo
+var err string
+var myPort string //porta do meu servidor
+var nServers int //qtde de outros processo
+var CliConn []*net.UDPConn //vetor com conexões para os servidores
+ //dos outros processos
+var ServConn *net.UDPConn //conexão do meu servidor (onde recebo
+ //mensagens dos outros processos)
 
+var id int //numero identificador do processo
+var mylogicalClock int
+var estouNaCS bool
+var estouEsperando bool
+var received_all_replies bool
+var sharedResource *net.UDPConn
+var queued_request []int
+var lc_requisicao int
+var replies_received []int
 
 // function that verifies if a specific process is in the queue
 func searchInList(process_id int) bool{
