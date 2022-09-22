@@ -17,6 +17,12 @@ func CheckError(e error) {
 	}
 }
 
+func PrintErrorAndMessage(e error, message string) {
+	if e != nil {
+		fmt.Println("Error:", e.Error(), "in message:", message)
+	}
+}
+
 //auxiliary function to determine the bigger between two numbers
 func MaxNumber(x1, x2 int) int {
 	if x1 > x2 {
@@ -26,8 +32,8 @@ func MaxNumber(x1, x2 int) int {
 }
 
 //auxiliary function to concatenate ID, clock and 
-func Concatenate(str_id string, str_clock string, text string) (message string) {
+func Concatenate(str_id string, str_clock string, text string) (message string, buf []byte) {
 	message =  str_id + "," + str_clock + "," + text
-
+	buf = []byte(message)
 	return
 }
