@@ -3,3 +3,5 @@ process:
 
 sharedresource:
 	go build -o ./target/sharedresource ./cmd/sharedresource
+
+all: process sharedresource
