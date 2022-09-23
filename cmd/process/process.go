@@ -243,11 +243,11 @@ func makeConnections(nServers int, ports []string) (connections []*net.UDPConn, 
 }
 
 func getArgs() (id int, procPort string, ports []string, nServers int) {
-	id, err := strconv.Atoi(os.Args[0])
+	id, err := strconv.Atoi(os.Args[1])
 	utils.CheckError(err)
-	procPort = os.Args[id]
-	ports = os.Args[1:]
-	nServers = len(os.Args) - 1
+	procPort = os.Args[id + 1]
+	ports = os.Args[2:]
+	nServers = len(os.Args) - 2
 	return
 }
 
