@@ -65,10 +65,10 @@ func queueRequest(processID int, queuedRequests []int) (newQueue []int){
 }
 
 // function to build and send reply messages
-func replyToProcess(thisClock, processID int, connections []*net.UDPConn) {
+func replyToProcess(thisClock, thisID, processID int, connections []*net.UDPConn) {
 	// convert to string
 	str_clock := strconv.Itoa(thisClock)
-	str_id := strconv.Itoa(processID)
+	str_id := strconv.Itoa(thisID)
 
 	// utils.Concatenate
 	message, buf := utils.Concatenate(str_id, str_clock, "reply")
@@ -188,7 +188,7 @@ func readFromUDP(thisID, nServers int, serverConn *net.UDPConn, connections []*n
 			} else { 
 				// reply immediately
 				fmt.Println("replying process", processIDStr)
-				replyToProcess(thisClock, processID, connections)
+				replyToProcess(thisClock, thisID, processID, connections)
 			}
 		} else if messageType == "reply" {
 			if !searchInList(processID, repliesReceived) {
