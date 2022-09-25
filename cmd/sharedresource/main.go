@@ -1,10 +1,13 @@
 package main
 
 import (
-	"net"
 	"fmt"
-	"github.com/gbrlbrbs/CES27_Lab1/internal/utils"
+	"net"
 	"strings"
+
+	//"time"
+
+	"github.com/gbrlbrbs/CES27_Lab1/internal/utils"
 )
 
 func main() {
@@ -13,12 +16,12 @@ func main() {
 	connection, err := net.ListenUDP("udp", addr)
 	utils.CheckError(err)
 	defer connection.Close()
-	fmt.Println("server listening at", connection.LocalAddr().String())
+	fmt.Println(">>>server listening at", connection.LocalAddr().String())
 	for {
 		message := make([]byte, 1024)
 		rlen, remote, err := connection.ReadFromUDP(message)
 		utils.CheckError(err)
 		data := strings.TrimSpace(string(message[:rlen]))
-		fmt.Println("received: msg =", data, "sender =", remote)
+		fmt.Println(">>>received: msg =", data, "sender =", remote)
 	}
 }

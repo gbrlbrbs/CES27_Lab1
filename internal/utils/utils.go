@@ -6,20 +6,20 @@ import (
 
 func PrintError(e error) {
 	if e != nil {
-		fmt.Println("Error:", e.Error())
+		fmt.Println(">>>Error:", e.Error())
 	}
 }
 
 func CheckError(e error) {
 	if e != nil {
-		fmt.Println("Error:", e.Error())
+		fmt.Println(">>>Error:", e.Error())
 		panic(e)
 	}
 }
 
 func PrintErrorAndMessage(e error, message string) {
 	if e != nil {
-		fmt.Println("Error:", e.Error(), "in message:", message)
+		fmt.Println(">>>Error:", e.Error(), "in message:", message)
 	}
 }
 
@@ -31,9 +31,9 @@ func MaxNumber(x1, x2 int) int {
 	return x2
 }
 
-//auxiliary function to concatenate ID, clock and 
+//auxiliary function to concatenate ID, clock and message
 func Concatenate(str_id string, str_clock string, text string) (message string, buf []byte) {
-	message =  str_id + "," + str_clock + "," + text
+	message = str_id + "," + str_clock + "," + text
 	buf = []byte(message)
 	return
 }
